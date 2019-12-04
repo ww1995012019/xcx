@@ -1,0 +1,52 @@
+<!--pages/goodsList/goodsList.wxml-->
+
+<!-- 购物车 -->
+<view class="share-btn" wx:if="{{show_carts==1}}">
+  <view class="total_num" wx:if="{{cartSumNum>0}}">{{cartSumNum}}</view>
+  <image bindtap="cartModelShow" class="carts" data-gwc="1" src="../../images/tm_carts.png" style="width:43px;height:50px;float:right;margin-right:6px;margin-top:0.5px;"></image>
+</view>
+<view class="cart-model-mask" wx:if="{{cartModelShow}}" bindtap="cartModelHide"></view>
+<view class="cart-model" style='bottom:0rpx' wx:if="{{cartModelShow}}">
+  <view class="title-wrap flex-wrap">
+    <view class="desc flex-con">
+      <text>已选商品</text>
+    </view>
+    <view class="empty-cart" bindtap="clearCart">
+      <image src="/images/del.png" mode="acpect"></image>
+      <text>清空购物车</text>
+    </view>
+  </view>
+  <view class="good-list">
+    <block wx:key="" wx:for="{{cartList}}" wx:for-item="cart">
+      <view class="good-item flex-wrap border-b">
+        <view class="name flex-con">{{cart.name}}</view>
+        <view class="money">￥{{cart.price}}</view>
+        <view class="add-sub">
+          <text class="btn sub-btn" data-id="{{cart.gid}}" data-type="sub" catchtap="goodNumCount">-</text>
+          <text class="num">{{cart.num}}</text>
+          <text class="btn abb-btn" data-id="{{cart.gid}}" data-type="add" catchtap="goodNumCount">+</text>
+        </view>
+      </view>
+    </block>
+    <view class="good-item flex-wrap border-b" bindtap='submitOrder' data-double='1' style='background:#2CC08C;text-align:center;color:#fff'>
+      <text style='margin-left:310rpx;'>立即支付</text>
+    </view>
+  </view>
+</view>
+<!-- 获取用户信息提示框 -->
+<view class="get-userinfo-modal" wx:if="{{slient==1&&isShowgetuser}}">
+  <view class="get-userinfo">
+    <view class="label-title">小程序授权提示</view>
+    <view class="tipx-txt">允许小程序获得你的头像昵称信息</view>
+    <view class="flex-wrap border-t" style="padding:10rpx 0;">
+      <view class="btn flex-con border-r" bindtap="hideGetuser">取消</view>
+      <view class="btn flex-con confirm-btn">确定
+        <button open-type='getUserInfo' bindgetuserinfo='getuserInfo'></button>
+      </view>
+    </view>
+  </view>
+</view>
+<!--错误提示-->
+<view class="error-tip fade_in" wx:if="{{errorTip.isShow}}">
+  {{errorTip.text}}
+</view>
